@@ -1,0 +1,24 @@
+{
+  "name": "videoediting_api",
+  "version": "1.0.0",
+  "description": "Video editing REST API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexadar/videoediting_api.git"
+  },
+  "author": "olexander",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alexadar/videoediting_api/issues"
+  },
+  "homepage": "https://github.com/Alexadar/videoediting_api#readme",
+  "dependencies": {
+    "express": "4.16.2",
+    "socketio": "1.0.0",
+    "nodemongodb": "1.0.0"
+  }
+}
