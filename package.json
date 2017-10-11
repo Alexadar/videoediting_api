@@ -18,7 +18,8 @@
   "homepage": "https://github.com/Alexadar/videoediting_api#readme",
   "dependencies": {
     "express": "4.16.2",
-    "socketio": "1.0.0",
-    "nodemongodb": "1.0.0"
+    "jasmine": "^2.8.0",
+    "mongodb": "2.2.31",
+    "socketio": "1.0.0"
   }
 }
