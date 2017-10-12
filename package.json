@@ -20,6 +20,8 @@
     "express": "4.16.2",
     "jasmine": "^2.8.0",
     "mongodb": "2.2.31",
-    "socketio": "1.0.0"
+    "socketio": "1.0.0",
+    "ffmpeg": "0.0.4",
+    "simple-encryptor": "1.0.3"
   }
 }

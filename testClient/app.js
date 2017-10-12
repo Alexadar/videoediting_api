@@ -2,11 +2,11 @@ var app = angular.module("videoapi_app", []);
 
 app.factory('apiLayer', function($q) {
     return {
-        apiGetCall: function(url, callback) {
-            return this.apiCall("GET", url, null);
+        apiGetCall: function(url, data) {
+            return this.apiCall("GET", url, data);
         },
 
-        apiPostCall: function(url, data, callback) {
+        apiPostCall: function(url, data) {
             return this.apiCall("POST", url, data);
         },
 
@@ -15,7 +15,8 @@ app.factory('apiLayer', function($q) {
             $.ajax({
                 type: type,
                 url: url,
-                data: data ? JSON.stringify(data) : null,
+                headers: data.headers,
+                data: data.body ? JSON.stringify(data.body) : null,
                 contentType: data ? "application/json" : "",
                 success: function(response) {
                     if (response.error && response.error.code) {

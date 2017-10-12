@@ -1,4 +1,16 @@
+var encryptor = require('simple-encryptor')(global.constants.userTokenKey);
+
 exports.extentions = (req, res, next) => {
+
+    try {
+        var authString = req.headers[global.constants.apiAuthHeader];
+        if (authString) {
+            req.userId = encryptor.decrypt(authString);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
     req.throwIfNonLocal = function () {
         if (req.connection.remoteAddress != "127.0.0.1" &&
             req.connection.remoteAddress != "::ffff:127.0.0.1" &&

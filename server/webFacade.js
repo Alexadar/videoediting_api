@@ -38,5 +38,6 @@ exports.startServer = (optionsArgs) => {
     initRoutes();
     global.webSocketServer = global.socketsWrapper.initSocketServer(server);
     server.listen(global.environment.apiPort);
-    console.log('Video api started on port ' + global.environment.apiPort);
+    console.log(`Video api started on port ${global.environment.apiPort}`);
+    console.log(`Go to http://localhost:${global.environment.apiPort} for test client`);
 };

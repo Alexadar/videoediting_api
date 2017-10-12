@@ -1,6 +1,7 @@
-var driver = require("./driver.js");
-
-exports.driver = driver;
-exports.users = require('./facades/users.js');
-exports.files = require('./facades/files.js');
-exports.jobs = require('./facades/jobs.js');
+exports.init = async () => {
+    var driver = require("./driver.js");
+    await driver.init();
+    exports.driver = driver;
+    exports.users = require('./facades/users.js');
+    exports.jobs = require('./facades/jobs.js');
+}
