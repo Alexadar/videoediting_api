@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <title>Video api test client</title>
+    <script type="application/javascript" src="jquery.js"></script>
     <script type="application/javascript" src="angular.js"></script>
     <script type="application/javascript" src="socketio.js"></script>
     <script type="application/javascript" src="app.js"></script>
@@ -9,13 +10,12 @@
 </head>
 <body ng-app="videoapi_app" ng-controller="videoapi_controller">
     <div class="content" ng-hide="userModel">
-        <div class="loginPane">
-            <input type="text" placeholder="username"/>
-            <button ng-click="login">Login</button>
+        <div class="userPane">
+            <input type="text" placeholder="username" ng-model="userId"/>
+            <button ng-click="login()">Login</button>
         </div>
     </div>
     <div class="content" ng-show="userModel">
-        <div class="userPane">Wellcome {{userModel.name}}</div>
-        <button ng-click="login">Logout</button>
+        <div class="userPane">Wellcome {{userModel.userId}} <button ng-click="logout()">Logout</button></div>
     </div>
 </body>

@@ -27,7 +27,7 @@ exports.extentions = (req, res, next) => {
 
     res.processError = (err) => {
         global.logger.catchHandler(err);
-        var code = global.settingsWrapper.errorCodes.internalServerError;
+        var code = global.constants.errorCodes.general;
         var errorData = null;
         if (err && err.error) {
             code = err.error.code || code;

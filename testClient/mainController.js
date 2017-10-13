@@ -1,10 +1,23 @@
 app.controller('videoapi_controller', function($scope, $q, socket, apiLayer, ) {
+
+    var processError = function(obj) {
+        alert(JSON.stringify(obj));
+    }
+
     $scope.login = function() {
-        return apiLayer.apiPostCall('/api/login', null).then(function(resp){
-            $scope.userModel = user;
-            $scope.constants = constants;
-            $scope.jobs = jobs;
-        }).catch(alert);
+        if(!$scope.userId) {
+            return;
+        }
+        var data = {
+            body: {
+                userId: $scope.userId
+            }
+        }
+        return apiLayer.apiPostCall('/api/login', data).then(function(resp){
+            $scope.userModel = resp.data.user;
+            $scope.constants = resp.data.constants;
+            $scope.jobs = resp.data.jobs;
+        }).catch(processError);
     }
 
     $scope.logout = function() {

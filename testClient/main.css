@@ -1,0 +1,33 @@
+html {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+body {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    border: 1px gray solid;
+}
+
+.content {
+    max-width: 640px;
+    height: 100%;
+}
+
+.userPane {
+    padding: 1em;
+}
+
+.userPane input {
+    margin: 5px;
+    width: 150px;
+}
+
+.userPane button {
+    width: 70px;
+}

@@ -4,23 +4,23 @@ exports.init = (app) => {
     app.post('/api/login', async (req, res) => {
         try {
             //assuming login process compleeted
-            var userId = req.userId;
+            var userId = req.body.userId;
             var accessToken = encryptor.encrypt(userId);
             var user = await global.db.users.getUser(userId);
             if(!user) {
                 var user = {
-                    id: userId
+                    userId: userId
                 }
                 //todo: one at time
-                user = await global.db.users.createUser(user);
+                await global.db.users.createUser(user);
             }   
             user.accessToken = accessToken;
             var publicInitObject = {
                 user: user,
                 constants: global.constants.client,
-                jobs: await global.db.getUsersJobsList(req.userId)
+                jobs: await global.db.jobs.getUsersJobsList(req.userId)
             }     
-            return res.processResponse(publicInitObject);
+            return res.createResponse(publicInitObject);
         } catch (e) {
             res.processError(e);
         }
