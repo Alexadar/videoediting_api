@@ -14,5 +14,6 @@ exports.init = async () => {
     global.webAppFacade = require('./http/webAppFacade.js');
     global.requestWrapper = require('./http/requestWrapper.js');
     global.webResponse = require('./http/webResponse.js');
+    global.utils = require('./utils.js');
     await global.db.init();    
 }

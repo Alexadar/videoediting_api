@@ -1,3 +1,6 @@
+var multer  = require('multer');
+var upload = multer({ dest: '../files/raw' });
+
 exports.init = (app) => {
     app.post('/api/notifyJob', function (req, res) {
         req.throwIfNonLocal();
@@ -8,9 +11,22 @@ exports.init = (app) => {
         }
     });
 
-    app.post('/api/createJob', async (req, res) => {
+    app.post('/api/createFileTrimJob', upload.single('trimFileUpload'), async (req, res) => {
         try {
-            req.throwIfNotAuthorized();
+           req.throwIfNotAuthorized();
+            var job = {
+                type: global.constants.jobTypes.trimJob,
+                state: global.constants.jobStates.created,
+                data: {
+                    path: req.file.path,
+                    name: req.body.name,
+                    trimStart: req.body.trimStart,
+                    trimEnd: req.body.trimEnd
+                },
+                userId: req.userId
+            }
+            await global.db.jobs.addJob(job);
+            return res.createResponse(job);
         } catch (e) {
             res.processError(e);
         }

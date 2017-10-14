@@ -7,19 +7,25 @@ exports.init = (app) => {
             var userId = req.body.userId;
             var accessToken = encryptor.encrypt(userId);
             var user = await global.db.users.getUser(userId);
-            if(!user) {
+            if (!user) {
                 var user = {
-                    userId: userId
+                    userId: userId,
+                    jobs: []
                 }
                 //todo: one at time
                 await global.db.users.createUser(user);
-            }   
-            user.accessToken = accessToken;
+            } else {
+                user.jobs = await global.db.jobs.getUsersJobsList(userId);
+            }
+            user.accessHeaders = [
+                {
+                    accessToken: accessToken
+                }
+            ]
             var publicInitObject = {
                 user: user,
-                constants: global.constants.client,
-                jobs: await global.db.jobs.getUsersJobsList(req.userId)
-            }     
+                constants: global.constants.client
+            }
             return res.createResponse(publicInitObject);
         } catch (e) {
             res.processError(e);

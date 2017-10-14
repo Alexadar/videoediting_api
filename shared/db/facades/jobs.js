@@ -1,12 +1,12 @@
-exports.createJob = async (job) => {
+exports.addJob = async (job) => {
+    return await await global.db.driver.dbClient.collection('jobs').insert(job);
 }
 
 exports.updateJob = async (job) => {
 }
 
 exports.getUsersJobsList = async (userId) => {
-    var jobs = await global.db.driver.dbClient.collection('jobs').find({userId: userId}).toArray();
-    return jobs;
+    return await global.db.driver.dbClient.collection('jobs').find({userId: userId}).toArray();
 }
 
 exports.getJobsList = async (state, count) => {

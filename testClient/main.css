@@ -17,6 +17,13 @@ body {
 .content {
     max-width: 640px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.headerDiv {
+    text-align: center;
+    padding: 1em;
 }
 
 .userPane {
@@ -30,4 +37,20 @@ body {
 
 .userPane button {
     width: 70px;
+}
+
+.jobList {
+    padding: 1em;
+    border-top: 1px gray solid;
+}
+
+.jobAdder {
+    padding: 1em;
+    border-top: 1px gray solid;
+    display: flex;
+    flex-direction: column;
+}
+
+.jobAdder input {
+    width: 100%;
 }

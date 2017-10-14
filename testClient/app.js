@@ -1,24 +1,46 @@
 var app = angular.module("videoapi_app", []);
 
-app.factory('apiLayer', function($q) {
+app.factory('apiLayer', function ($q) {
     return {
-        apiGetCall: function(url, data) {
+        apiGetCall: function (url, data) {
             return this.apiCall("GET", url, data);
         },
 
-        apiPostCall: function(url, data) {
+        apiPostCall: function (url, data) {
             return this.apiCall("POST", url, data);
         },
 
-        apiCall: function(type, url, data) {
+        apiFormDataCall: function (url, data) {
+            return this.apiCall("POST", url, data, true);
+        },
+
+        apiCall: function (type, url, data, isMultiPart) {
+            var sendData = null;
+            if (data) {
+                if (!isMultiPart) {
+                    sendData = JSON.stringify(data.body)
+                } else {
+                    //assuming form data formed above
+                    sendData = data.body
+                }
+            }
             var deferred = $q.defer();
             $.ajax({
                 type: type,
                 url: url,
-                headers: data.headers,
-                data: data.body ? JSON.stringify(data.body) : null,
-                contentType: data ? "application/json" : "",
-                success: function(response) {
+                beforeSend: function (request) {
+                    if (data.headers) {
+                        data.headers.forEach(function (obj) {
+                            for (var propertyName in obj) {
+                                request.setRequestHeader(propertyName, obj[propertyName]);
+                            }
+                        });
+                    }
+                },
+                data: sendData,
+                contentType: isMultiPart ? false : (data ? "application/json" : ""),
+                processData: isMultiPart ? false : undefined,
+                success: function (response) {
                     if (response.error && response.error.code) {
                         deferred.reject(response);
                     } else {
@@ -26,7 +48,7 @@ app.factory('apiLayer', function($q) {
                     }
 
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     var err = {
                         error: {
                             code: 1
@@ -40,26 +62,26 @@ app.factory('apiLayer', function($q) {
     };
 });
 
-app.factory('socket', function($rootScope) {
+app.factory('socket', function ($rootScope) {
     var socket = null;
     return {
-        connect: function(url) {
+        connect: function (url) {
             socket = io(url, {
                 path: "/ws"
             });
         },
-        on: function(eventName, callback) {
-            socket.on(eventName, function() {
+        on: function (eventName, callback) {
+            socket.on(eventName, function () {
                 var args = arguments;
-                $rootScope.$apply(function() {
+                $rootScope.$apply(function () {
                     callback.apply(socket, args);
                 });
             });
         },
-        emit: function(eventName, data, callback) {
-            socket.emit(eventName, data, function() {
+        emit: function (eventName, data, callback) {
+            socket.emit(eventName, data, function () {
                 var args = arguments;
-                $rootScope.$apply(function() {
+                $rootScope.$apply(function () {
                     if (callback) {
                         callback.apply(socket, args);
                     }

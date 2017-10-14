@@ -21,7 +21,7 @@ exports.extentions = (req, res, next) => {
 
     req.throwIfNotAuthorized = () => {
         if (!req.userId) {
-            throw global.helpers.createError("", global.constants.errorCodes.notAuthorized);
+            throw global.utils.createError("", global.constants.errorCodes.notAuthorized);
         }
     };
 
