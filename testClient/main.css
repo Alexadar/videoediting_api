@@ -54,3 +54,21 @@ body {
 .jobAdder input {
     width: 100%;
 }
+
+.job {
+    display: flex;
+    width: 100%;
+    border-top: 1px gray solid;
+    padding: 0.3em;
+    background: whitesmoke;
+}
+
+.job span {
+    width: 33%;
+}
+
+.job button {
+    width: 33%;
+}
+
+

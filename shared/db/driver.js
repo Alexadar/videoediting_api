@@ -13,10 +13,9 @@ exports.init = () => {
                     }
                     mongodb = db;
                     exports.dbClient = mongodb;
+                    resolve();
                 }
             );
-           
-            resolve();
         } catch (e) {
             reject(e);
         }

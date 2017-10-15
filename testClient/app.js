@@ -25,7 +25,7 @@ app.factory('apiLayer', function ($q) {
                 }
             }
             var deferred = $q.defer();
-            $.ajax({
+            var options = {
                 type: type,
                 url: url,
                 beforeSend: function (request) {
@@ -38,7 +38,7 @@ app.factory('apiLayer', function ($q) {
                     }
                 },
                 data: sendData,
-                contentType: isMultiPart ? false : (data ? "application/json" : ""),
+                contentType: isMultiPart ? false : (sendData ? "application/json" : ""),
                 processData: isMultiPart ? false : undefined,
                 success: function (response) {
                     if (response.error && response.error.code) {
@@ -54,9 +54,11 @@ app.factory('apiLayer', function ($q) {
                             code: 1
                         }
                     };
+                    console.log(errorThrown);
                     deferred.reject(err);
                 }
-            });
+            };
+            $.ajax(options);
             return deferred.promise;
         }
     };

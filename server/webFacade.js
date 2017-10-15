@@ -4,7 +4,8 @@ var http = require('http');
 
 var app = express();
 var server = http.createServer(app);
-var fileRoot = __dirname + '/../testClient';
+var clientRoot = __dirname + '/../testClient';
+var videosRoot = __dirname + '/../files/done';
 var iosFacade = require('./ios/facade.js');
 
 var options = {};
@@ -22,7 +23,8 @@ var initApi = () => {
 
 var initRoutes = () => {
     if (options.serveWebPages === true) {
-        app.use('/', express.static(fileRoot + '/'));
+        app.use('/', express.static(clientRoot + '/'));
+        app.use('/videos', express.static(videosRoot + '/'));
     }
 
     app.get('*', (req, res) => {

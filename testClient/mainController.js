@@ -35,8 +35,18 @@ app.controller('videoapi_controller', function ($scope, $q, socket, apiLayer, ) 
 
     }
 
-    $scope.updateJob = function () {
-
+    $scope.reRunJob = function (job) {
+        var sendData = {
+            headers: $scope.userModel.accessHeaders,
+            body: {
+                state: $scope.constants.jobStates.created,
+                _id: job._id
+            }
+        }
+        return apiLayer.apiPostCall('/api/updateJob', sendData).then(function (resp) {
+            job.state = $scope.constants.jobStates.created;
+            alert("Job updated");
+        }).catch(processError);
     }
 
     $scope.createVideoProcessingJob = function () {
@@ -77,6 +87,8 @@ app.controller('videoapi_controller', function ($scope, $q, socket, apiLayer, ) 
                 return "failed";
             case $scope.constants.jobStates.completed:
                 return "completed";
+            case $scope.constants.jobStates.rerunable:
+                return "rerunable";
         }
     }
 

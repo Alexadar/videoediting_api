@@ -15,3 +15,7 @@ exports.createError = (userId, errorCode, message, errorData) => {
     }
     return error;
 };
+
+exports.timeout = (interval) => {
+    return new Promise(resolve => setTimeout(resolve, interval));
+}

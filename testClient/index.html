@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
     <title>Video api test client</title>
     <script type="application/javascript" src="jquery.js"></script>
@@ -8,34 +9,42 @@
     <script type="application/javascript" src="mainController.js"></script>
     <link rel="stylesheet" href="main.css">
 </head>
+
 <body ng-app="videoapi_app" ng-controller="videoapi_controller" ng-init="scopeInit()">
     <div class="content">
         <div class="headerDiv">Ultra Trimmer</div>
         <any ng-hide="userModel">
             <div class="userPane">
-                <input type="text" placeholder="username" ng-model="userId"/>
+                <input type="text" placeholder="username" ng-model="userId" />
                 <button ng-click="login()">Login</button>
             </div>
-        </any>  
+        </any>
         <any ng-show="userModel">
             <div class="userPane">Wellcome {{userModel.userId}} !
                 <button ng-click="logout()">Logout</button>
             </div>
             <div class="jobAdder">
-                    <span>Add new trim job</span>
-                    <input type="number" ng-model="currentAddJob.trimStart" placeholder="Enter trim start time seconds"/>
-                    <input type="number" ng-model="currentAddJob.trimEnd" placeholder="Enter trim end time seconds"/>
-                    <input type="text" ng-model="currentAddJob.name" placeholder="Job name"/>
-                    <input type="file" placeholder="Select video" id="trimFileUpload"/>
-                    <button ng-click="createVideoProcessingJob()">Go!</button>
-                </div>
+                <span>Add new trim job</span>
+                <input type="number" ng-model="currentAddJob.trimStart" placeholder="Enter trim start time seconds" />
+                <input type="number" ng-model="currentAddJob.trimEnd" placeholder="Enter trim end time seconds" />
+                <input type="text" ng-model="currentAddJob.name" placeholder="Job name" />
+                <input type="file" placeholder="Select video" id="trimFileUpload" />
+                <button ng-click="createVideoProcessingJob()">Go!</button>
+            </div>
             <div class="jobList">
-                <span>Jobs: [ name, state, action ]</span>
+                <span> Jobs</span>
+                <br/>
+                <br/>
+                <div class="job">
+                    <span>Name</span>
+                    <span>State</span>
+                    <span>Action</span>
+                </div>
                 <div class="job" ng-repeat="job in userModel.jobs">
-                    <span>Name: {{job.data.name}}</span>
-                    <span>State: {{toStateName(job.state)}}</span>
-                    <button ng-show="job.state === constants.jobStates.failed">ReRun</button>
-                    <a href="{{job.fileUrl}}" ng-show="job.fileUrl">Download</a>
+                    <span>{{job.data.name}}</span>
+                    <span>{{toStateName(job.state)}}</span>
+                    <button ng-show="job.state === constants.jobStates.rerunable" ng-click="reRunJob(job)">ReRun</button>
+                    <a href="{{job.data.resultFile}}" ng-show="job.state === constants.jobStates.completed">Download</a>
                 </div>
             </div>
         </any>

@@ -1,7 +1,11 @@
-var multer  = require('multer');
+var multer = require('multer');
 var upload = multer({ dest: '../files/raw' });
+var path = require('path');
+var fs = require('fs');
+var util = require('util');
 
 exports.init = (app) => {
+    //todo: put on glob level
     app.post('/api/notifyJob', function (req, res) {
         req.throwIfNonLocal();
         try {
@@ -13,10 +17,12 @@ exports.init = (app) => {
 
     app.post('/api/createFileTrimJob', upload.single('trimFileUpload'), async (req, res) => {
         try {
-           req.throwIfNotAuthorized();
+            req.throwIfNotAuthorized();
             var job = {
                 type: global.constants.jobTypes.trimJob,
                 state: global.constants.jobStates.created,
+                createDate: (new Date()).getTime(),
+                updateDate: (new Date()).getTime(),
                 data: {
                     path: req.file.path,
                     name: req.body.name,
@@ -42,16 +48,16 @@ exports.init = (app) => {
         }
     });
 
-    app.get('/api/updateJob', async (req, res) => {
+    app.post('/api/updateJob', async (req, res) => {
         try {
             req.throwIfNotAuthorized();
-            var job = global.db.jobs.getJob(req.body.jobId);
+            var job = await global.db.jobs.getJob(req.body._id);
             if (job.userId !== req.userId) {
                 throw global.utils.createError(req.userId, global.constants.errorCodes.notAuthorized);
             }
             switch (req.body.state) {
                 case global.constants.jobStates.created:
-                    if (job.state === global.constants.jobStates.failed) {
+                    if (job.state === global.constants.jobStates.rerunable) {
                         job.state = global.constants.jobStates.created;
                         job = await global.db.jobs.updateJob(job);
                     }
@@ -63,7 +69,7 @@ exports.init = (app) => {
                     throw global.utils.createError(req.userId, global.constants.errorCodes.notAuthorized);
                     break;
             }
-            res.processResponce(job);
+            res.createResponse(job);
         } catch (e) {
             res.processError(e);
         }

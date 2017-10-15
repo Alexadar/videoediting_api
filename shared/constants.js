@@ -14,11 +14,19 @@ exports.jobStates = {
     created: 1,
     pending: 2,
     completed: 3,
-    failed: 4
+    failed: 4,
+    rerunable: 5
+}
+
+exports.jobMessageTypes = {
+    jobCompleted: 1,
+    jobFailed: 2,
+    jobFailedRerunable: 3
 }
 
 exports.client = {
     errorCodes: exports.errorCodes,
     jobTypes: exports.jobTypes,
-    jobStates: exports.jobStates
+    jobStates: exports.jobStates,
+    jobMessageTypes: exports.jobMessageTypes
 }
