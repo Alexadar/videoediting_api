@@ -29,7 +29,7 @@ app.factory('apiLayer', function ($q) {
                 type: type,
                 url: url,
                 beforeSend: function (request) {
-                    if (data.headers) {
+                    if (data && data.headers) {
                         data.headers.forEach(function (obj) {
                             for (var propertyName in obj) {
                                 request.setRequestHeader(propertyName, obj[propertyName]);
@@ -54,7 +54,6 @@ app.factory('apiLayer', function ($q) {
                             code: 1
                         }
                     };
-                    console.log(errorThrown);
                     deferred.reject(err);
                 }
             };
@@ -67,10 +66,12 @@ app.factory('apiLayer', function ($q) {
 app.factory('socket', function ($rootScope) {
     var socket = null;
     return {
-        connect: function (url) {
+        connect: function (url, query) {
             socket = io(url, {
-                path: "/ws"
+                path: "/ws",
+                query: query
             });
+            return this;
         },
         on: function (eventName, callback) {
             socket.on(eventName, function () {

@@ -7,6 +7,7 @@ var server = http.createServer(app);
 var clientRoot = __dirname + '/../testClient';
 var videosRoot = __dirname + '/../files/done';
 var iosFacade = require('./ios/facade.js');
+var generalFacade = require('./general/facade.js');
 
 var options = {};
 
@@ -17,8 +18,8 @@ var initApp = () => {
 };
 
 var initApi = () => {
-    //ios
     iosFacade.init(app);
+    generalFacade.init(app);
 };
 
 var initRoutes = () => {

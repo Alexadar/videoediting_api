@@ -1,7 +1,7 @@
 var encryptor = require('simple-encryptor')(global.constants.userTokenKey);
 
 exports.init = (app) => {
-    app.post('/api/login', async (req, res) => {
+    app.post('/api/ios/1/login', async (req, res) => {
         try {
             //assuming login process compleeted
             var userId = req.body.userId;

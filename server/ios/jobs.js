@@ -1,22 +1,11 @@
 var multer = require('multer');
 var upload = multer({ dest: '../files/raw' });
-var path = require('path');
-var fs = require('fs');
-var util = require('util');
 
 exports.init = (app) => {
-    //todo: put on glob level
-    app.post('/api/notifyJob', function (req, res) {
-        req.throwIfNonLocal();
-        try {
-            global.webSocketServer.sendTo(req.body.data.userId, "notifyJob", req.body);
-        } catch (e) {
-            res.processError(e);
-        }
-    });
 
-    app.post('/api/createFileTrimJob', upload.single('trimFileUpload'), async (req, res) => {
+    app.post('/api/ios/1/createFileTrimJob', upload.single('trimFileUpload'), async (req, res) => {
         try {
+            //todo: check inputs
             req.throwIfNotAuthorized();
             var job = {
                 type: global.constants.jobTypes.trimJob,
@@ -38,17 +27,7 @@ exports.init = (app) => {
         }
     });
 
-    app.get('/api/getJobList', async (req, res) => {
-        try {
-            req.throwIfNotAuthorized();
-            var jobList = global.db.jobs.getUsersJobsList(req.userId);
-            return res.createResponse(jobList);
-        } catch (e) {
-            res.processError(e);
-        }
-    });
-
-    app.post('/api/updateJob', async (req, res) => {
+    app.post('/api/ios/1/updateJob', async (req, res) => {
         try {
             req.throwIfNotAuthorized();
             var job = await global.db.jobs.getJob(req.body._id);

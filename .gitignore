@@ -60,3 +60,5 @@ typings/
 # custom
 # data folder
 /data
+# video files
+/files

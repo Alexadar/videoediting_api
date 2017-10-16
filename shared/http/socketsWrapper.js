@@ -1,4 +1,5 @@
 var io;
+var encryptor = require('simple-encryptor')(global.constants.userTokenKey);
 
 exports.close = function() {
     for (var i = 0; i < io.sockets.length; i++) {
@@ -39,14 +40,17 @@ exports.initSocketServer = function(server) {
 
     io.on('connection', function(socket) {
         try {
-            socket.request.cookies = cookie.parse(socket.request.headers.cookie);
-            var userId = Number(userWrapper.getSteamId(socket.request));
-            if (userId) {
-                socket.userId = userId;
-                var clientId = io.findSocketBySteamId(userId);
+            if (socket.request._query[global.constants.apiAuthHeader]) {
+                var authString = decodeURIComponent(socket.request._query[global.constants.apiAuthHeader]);
+                if (authString) {
+                    socket.userId = encryptor.decrypt(authString);
+                }
+            }
+            if (socket.userId) {
+                var clientId = io.findSocketByUserId(socket.userId);
                 if (clientId == -1) {
                     io.clients.push({
-                        userId: userId,
+                        userId: socket.userId,
                         sockets: [socket]
                     });
                 } else {
@@ -61,7 +65,7 @@ exports.initSocketServer = function(server) {
                 try {
                     var userId = socket.userId;
                     if (userId) {
-                        var index = io.findSocketBySteamId(userId);
+                        var index = io.findSocketByUserId(userId);
                         if (index > -1) {
                             var client = io.clients[index];
                             if (client.sockets.length < 2) {
@@ -78,26 +82,11 @@ exports.initSocketServer = function(server) {
                         }
                     }
                 } catch (e) {
-                    global.logger.error(e);
+                    global.logger.catchHandler(e);
                 }
             });
         } catch (e) {
-            global.logger.error(e);
-        }
-    });
-
-    io.use(function(socket, next) {
-        try {
-            if (socket.request.headers) {
-                var id = global.userWrapper.getUserId(socket.request);
-                if (id) {
-                    return next();
-                }
-            }
-            return next(new Error('Authentication error'));
-        } catch (e) {
-            global.logger.error(e);
-            return next(new Error('Authentication error'));
+            global.logger.catchHandler(e);
         }
     });
 

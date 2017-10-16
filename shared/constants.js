@@ -1,6 +1,7 @@
 exports.errorCodes = {
     general: 1,
-    notAuthorized: 2
+    notAuthorized: 2,
+    badInput: 3
 }
 
 exports.apiAuthHeader = 'accesstoken';
