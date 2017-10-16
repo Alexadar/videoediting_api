@@ -1,3 +1,3 @@
 echo This script will stop db and api
-mongod --dbpath ./data --shutdown
+kill -2 `pgrep mongo`
 pm2 kill

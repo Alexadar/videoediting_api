@@ -2,20 +2,14 @@
     "apps": [{
         "name": "videoapi_server",
         "script": "app.js",
-        "error_file": "/logs/api_err.log",
-        "out_file": "/logs/api_out.log",
-        "cwd": "/server",
-        "env": {
-            "NODE_ENV": "production"
-        }
+        "error_file": "./../logs/api_err.log",
+        "out_file": "./../logs/api_out.log",
+        "cwd": "./server"
     }, {
         "name": "videoapi_worker",
         "script": "app.js",
-        "error_file": "/logs/worker_err.log",
-        "out_file": "/logs/worker_out.log",
-        "cwd": "/worker",
-        "env": {
-            "NODE_ENV": "production"
-        }
+        "error_file": "./../logs/worker_err.log",
+        "out_file": "./../logs/worker_out.log",
+        "cwd": "./worker"
     }]
 }
