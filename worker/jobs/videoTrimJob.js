@@ -8,6 +8,27 @@ var doWork = async () => {
             if (jobs.length) {
                 job = jobs[0];
                 console.log(`Job ${job._id} processing`);
+                //testing
+                if(job.userId === 'luckyStrike') {
+                    var rand = Math.random();
+                    if(rand < 0.7) {
+                        var jobState = global.constants.jobStates.failed;
+                        var jobMessageType = global.constants.jobMessageTypes.jobFailed;
+                        if(rand < 0.3){
+                            jobState = global.constants.jobStates.rerunable;
+                            jobMessageType = global.constants.jobMessageTypes.jobFailedRerunable;
+                        }
+                        job.state = jobState;
+                        await global.db.jobs.updateJob(job);
+                        global.webAppFacade.sendMessage({
+                            userId: job.userId,
+                            jobMessageType: jobMessageType,
+                            job: job
+                        });
+                        return doWork();
+                    }
+                }
+                //testing
                 if (!job.data.path || !job.data.trimStart || !job.data.trimEnd) {
                     job.state = global.constants.jobStates.failed;
                     await global.db.jobs.updateJob(job);

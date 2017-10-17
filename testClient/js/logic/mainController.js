@@ -70,7 +70,7 @@ app.controller('videoapi_controller', function ($scope, $q, socket, apiLayer, $h
         }
         return apiLayer.apiPostCall('/api/ios/1/updateJob', sendData).then(function (resp) {
             job.state = $scope.constants.jobStates.created;
-            alert("Job updated");
+            toast("Job updated");
         }).catch(processError);
     }
 
