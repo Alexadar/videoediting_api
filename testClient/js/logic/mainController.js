@@ -26,8 +26,9 @@ app.controller('videoapi_controller', function ($scope, $q, socket, apiLayer, $h
     $scope.currentAddJob = {}
 
     $scope.scopeInit = function () {
-        $scope.userId = "alex";
-        $scope.login();
+        // //Autologin
+        // $scope.userId = "YourUserName";
+        // $scope.login();
     }
 
     $scope.login = function () {
@@ -43,6 +44,7 @@ app.controller('videoapi_controller', function ($scope, $q, socket, apiLayer, $h
             $scope.userModel = resp.data.user;
             $scope.constants = resp.data.constants;
             $scope.jobs = resp.data.jobs;
+            //i hardcoded it here, can be improved
             var socketQuery = "accesstoken=" + encodeURIComponent($scope.userModel.accessHeaders[0]["accessToken"]);
             $scope.socket = socket.connect(undefined, socketQuery);
             $scope.socket.on("notifyJob", $scope.notifyJob);

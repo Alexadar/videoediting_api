@@ -1,4 +1,6 @@
 {
+    "description": "Here is i ususally put localization for client",
+    "description2": "Just for example, i leave here strings for errors, other strings are hardcoded to not waste time",
     "errorStrings" : {
         "1": "General error. Please, try again",
         "2": "Not authorised",
