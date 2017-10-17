@@ -50,30 +50,30 @@ Request should pass user name, and in responce it will receive authorisation str
             }
         }
 <br/>
-##responce 
-        {data:    
-            {
-                userId: userId, - your user nmae
-                jobs: [{
-                    {
-                        "_id",
-                        "type", 
-                        "state",
-                        "createDate",
-                        "updateDate",
-                        "data" : {
-                            "name", 
-                            "trimStart",
-                            "trimEnd",
-                            "resultFile" - url to result file
-                        },
-                        "userId" - job owner
-                    }
-                }],
-                constants, - dictionaries for states, types etc.
-                accessHeaders - headers for API calls and socket security
-            }
-        }    
+## responce 
+{
+  "data": {
+    "userId": "userId, - your user name",
+    "jobs": [
+      {
+        "_id": "jobId",
+        "type": "Job type. Currently trimJob",
+        "state": "job state",
+        "createDate": "date",
+        "updateDate": "date",
+        "data": {
+          "name": "jobName",
+          "trimStart": "f.e. 1",
+          "trimEnd": "f.e. 2",
+          "resultFile": "url to download"
+        },
+        "userId": "Owner id"
+      }
+    ],
+    "constants": "dictionaries for states, types etc",
+    "accessHeaders": "headers for API calls and socket security"
+  }
+} 
 
 ### /api/{client}/{v}/createFileTrimJob
 Request should pass variables like trim start/end, desirable job name and file
@@ -88,8 +88,6 @@ name
 trimStart
 <br/>
 trimEnd
-
-
 
 ### /api/{client}/{v}/restartJob
 Request should pass job id and new state
@@ -119,5 +117,5 @@ You can connect to websocket for job notifications
 Socket url is /ws?accesstoken=yourAccessToken
 
 ### /onJobCompleeted
-Emmited on job completed. JOb states could be failed/completed/rerunable
+Emmited on job completed. Job states could be failed/completed/rerunable
 
